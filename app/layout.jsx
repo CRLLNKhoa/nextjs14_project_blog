@@ -5,10 +5,6 @@ import { ClerkProvider } from "@clerk/nextjs";
 import { Providers } from "@/components/providers";
 import { Toaster } from "@/components/ui/toaster";
 
-export const metadata = {
-  title: "Lương Khoa"
-}
-
 export default function RootLayout({ children }) {
   return (
     <ClerkProvider>
