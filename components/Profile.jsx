@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "./ui/button";
 import { MdOpenInNew } from "react-icons/md";
@@ -13,23 +13,26 @@ import { Skeleton } from "./ui/skeleton";
 export default function Profile() {
   const [data, setData] = useState();
   const router = useRouter();
-  const getData = async () => {
-    await axios
-      .get("https://api.github.com/users/CRLLNKhoa")
-      .then(function (response) {
-        // handle success
-        setData(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-  };
-  getData();
+
+  useEffect(() => {
+    const getData = async () => {
+      await axios
+        .get("https://api.github.com/users/CRLLNKhoa")
+        .then(function (response) {
+          // handle success
+          setData(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    };
+    getData();
+  }, []);
 
   if(!data){
     return (
-      <div className="mb-4">
+      <div id="profile" className="mb-4">
          <Skeleton className="w-full h-[284px] rounded-full" />
         <Skeleton className="w-1/2 h-[20px] rounded-md mt-4" />
         <Skeleton className="w-full h-[80px] rounded-md mt-4" />
@@ -42,7 +45,7 @@ export default function Profile() {
 
 
   return (
-    <div className="mb-4">
+    <div className="mb-4 col-span-4 lg:col-span-1">
       <Avatar className="w-full h-auto m-auto select-none">
         <AvatarImage
           src={data?.avatar_url}
@@ -87,7 +90,7 @@ export default function Profile() {
         <p><b>{data?.following}</b> Following</p>
       </div>
       <Separator className="mt-6 mb-4" />
-      <p className="text-muted-foreground">©Copyright Lương Khoa</p>
+      <p className="text-muted-foreground hidden lg:block">©Copyright Lương Khoa</p>
     </div>
   );
 }

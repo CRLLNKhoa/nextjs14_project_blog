@@ -18,38 +18,37 @@ export default function Reponsitoreis() {
   const [count, setCount] = useState(0);
   const [parent, enableAnimations] = useAutoAnimate(/* optional config */);
 
-  const getData = async () => {
-    await axios
-      .get(
-        `https://api.github.com/users/CRLLNKhoa/repos?per_page=${page}&sort=desc`
-      )
-      .then(function (response) {
-        // handle success
-        setData(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-    const s = await axios
-      .get(`https://api.github.com/users/CRLLNKhoa/repos?per_page=9999`)
-      .then(function (response) {
-        // handle success
-        setCount(response.data.length);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      await axios
+        .get(
+          `https://api.github.com/users/CRLLNKhoa/repos?per_page=${page}&sort=desc`
+        )
+        .then(function (response) {
+          // handle success
+          setData(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+      const s = await axios
+        .get(`https://api.github.com/users/CRLLNKhoa/repos?per_page=9999`)
+        .then(function (response) {
+          // handle success
+          setCount(response.data.length);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    };
     getData();
   }, [page]);
 
   if (!data) {
     return (
-      <div className="grid grid-cols-2 py-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 py-6 gap-4">
         <Skeleton className="w-full h-[200px] rounded-md" />
         <Skeleton className="w-full h-[200px] rounded-md" />
         <Skeleton className="w-full h-[200px] rounded-md" />
@@ -109,12 +108,12 @@ export default function Reponsitoreis() {
     <>
       <div
         ref={parent}
-        className="grid grid-cols-2 gap-4"
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 pt-4 gap-4"
       >
         {data?.map((card) => (
           <div
             key={card.id}
-            className="flex flex-col justify-between shadow-lg rounded-sm overflow-hidden"
+            className="flex flex-col justify-between border dark:border-slate-500 shadow-lg dark:shadow-none rounded-sm overflow-hidden"
           >
             <div className="flex flex-col gap-2 p-4">
               <div className="flex items-center justify-between">
@@ -129,7 +128,7 @@ export default function Reponsitoreis() {
                 {card?.description || "description empty"}
               </p>
             </div>
-            <div className="bg-slate-100 p-4 flex gap-4 items-center">
+            <div className="bg-slate-100 dark:bg-slate-800 p-4 flex gap-4 items-center">
               <div className="flex items-center gap-1">
                 <div
                   className={cn(

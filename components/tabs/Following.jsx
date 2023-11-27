@@ -9,26 +9,26 @@ import { Skeleton } from "../ui/skeleton";
 
 export default function Following() {
   const [data, setData] = useState();
-  const getData = async () => {
-    await axios
-      .get("https://api.github.com/users/CRLLNKhoa/following")
-      .then(function (response) {
-        // handle success
-        setData(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-  };
-
+  
   useEffect(() => {
+    const getData = async () => {
+      await axios
+        .get("https://api.github.com/users/CRLLNKhoa/following")
+        .then(function (response) {
+          // handle success
+          setData(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    };
     getData();
   }, []);
 
   if (!data) {
     return (
-      <div className="grid grid-cols-2 py-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 py-6 gap-4">
         <Skeleton className="w-full h-[80px] rounded-md" />
         <Skeleton className="w-full h-[80px] rounded-md" />
         <Skeleton className="w-full h-[80px] rounded-md" />
@@ -90,7 +90,7 @@ export default function Following() {
   }
 
   return (
-    <div className="grid grid-cols-2 py-6 gap-4">
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 py-6 gap-4">
       {data?.map((item) => (
         <CardFollow
           key={item.id}
@@ -103,7 +103,7 @@ export default function Following() {
 
 function CardFollow({ data }) {
   return (
-    <div className="flex items-center justify-between p-4 rounded-md shadow-md hover:bg-sky-300 duration-500">
+    <div className="flex items-center dark:bg-slate-800 dark:hover:bg-sky-900 justify-between p-4 rounded-md shadow-md hover:bg-sky-300 duration-500">
       <div className="flex items-center gap-2">
         <Avatar className="h-12 w-12">
           <AvatarImage

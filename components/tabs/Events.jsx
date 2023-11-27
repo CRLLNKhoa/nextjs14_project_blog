@@ -3,31 +3,30 @@ import React, { useEffect, useState } from "react";
 import { Skeleton } from "../ui/skeleton";
 import axios from "axios";
 import Link from "next/link";
-import dayjs from "@/lib/dayjs"
+import dayjs from "@/lib/dayjs";
 import { cn } from "@/lib/utils";
 import { IoTimeOutline } from "react-icons/io5";
 export default function Events() {
   const [data, setData] = useState();
-  const getData = async () => {
-    await axios
-      .get("https://api.github.com/users/CRLLNKhoa/events?per_page=10")
-      .then(function (response) {
-        // handle success
-        setData(response.data);
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-  };
-
   useEffect(() => {
+    const getData = async () => {
+      await axios
+        .get("https://api.github.com/users/CRLLNKhoa/events?per_page=10")
+        .then(function (response) {
+          // handle success
+          setData(response.data);
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    };
     getData();
   }, []);
-console.log(data)
+  console.log(data);
   if (!data) {
     return (
-      <div className="grid grid-cols-2 py-6 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 py-6 gap-4">
         <Skeleton className="w-full h-[80px] rounded-md" />
         <Skeleton className="w-full h-[80px] rounded-md" />
         <Skeleton className="w-full h-[80px] rounded-md" />
@@ -88,8 +87,8 @@ console.log(data)
     );
   }
   return (
-    <div className="flex-1 p-8">
-      <div className="relative px-4">
+    <div className="flex-1 pt-2 lg:p-2 lg:pl-8">
+      <div className="relative">
         <div className="absolute h-full border border-dashed border-opacity-20 border-secondary"></div>
 
         {data?.map((item) => (
@@ -101,20 +100,31 @@ console.log(data)
               <div className="w-3.5 h-3.5 bg-blue-600 rounded-full"></div>
             </div>
             <div className="w-11/12">
-              <div className="flex">
+              <div className="flex items-center">
                 <p className="mr-1">Type:</p>
-                <span className={cn("text-white bg-black px-2",
-                item.type === "PushEvent" && "bg-red-600",
-                item.type === "IssueCommentEvent" && "bg-purple-600",
-                item.type === "CreateEvent" && "bg-green-600",
-                item.type === "IssuesEvent" && "bg-orange-600",
-                item.type === "WatchEvent" && "bg-sky-600"
-                )}>{item.type}</span>
-                <p className="ml-4 font-bold">Repo: {item.repo.name}</p>
-                <Link className="ml-2 text-sky-600 font-bold" href={`https://github.com/${item.repo.name}`} target="_blank">{`[${item.repo.id}]`}</Link>
+                <span
+                  className={cn(
+                    "text-white bg-black px-2",
+                    item.type === "PushEvent" && "bg-red-600",
+                    item.type === "IssueCommentEvent" && "bg-purple-600",
+                    item.type === "CreateEvent" && "bg-green-600",
+                    item.type === "IssuesEvent" && "bg-orange-600",
+                    item.type === "WatchEvent" && "bg-sky-600"
+                  )}
+                >
+                  {item.type}
+                </span>
+                <p className="ml-4 font-bold hidden lg:block">
+                  Repo: {item.repo.name}
+                </p>
+                <Link
+                  className="ml-2 text-sky-600 font-bold"
+                  href={`https://github.com/${item.repo.name}`}
+                  target="_blank"
+                >{`[${item.repo.id}]`}</Link>
               </div>
               <p className="text-xs text-gray-500 font-semibold capitalize flex items-center gap-2">
-              <IoTimeOutline /> {dayjs(item.created_at).fromNow()}
+                <IoTimeOutline /> {dayjs(item.created_at).fromNow()}
               </p>
             </div>
           </div>

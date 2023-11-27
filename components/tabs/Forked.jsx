@@ -10,26 +10,27 @@ import { FaExternalLinkSquareAlt } from "react-icons/fa";
 
 export default function Forked() {
     const [data, setData] = useState();
-    const getData = async () => {
-      await axios
-        .get("https://api.github.com/users/CRLLNKhoa/repos?fork=true")
-        .then(function (response) {
-          // handle success
-          setData(response.data);
-        })
-        .catch(function (error) {
-          // handle error
-          console.log(error);
-        });
-    };
+
   
     useEffect(() => {
+      const getData = async () => {
+        await axios
+          .get("https://api.github.com/users/CRLLNKhoa/repos?fork=true")
+          .then(function (response) {
+            // handle success
+            setData(response.data);
+          })
+          .catch(function (error) {
+            // handle error
+            console.log(error);
+          });
+      }
       getData();
     }, []);
   
     if (!data) {
       return (
-        <div className="grid grid-cols-2 py-6 gap-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 py-6 gap-4">
           <Skeleton className="w-full h-[200px] rounded-md" />
           <Skeleton className="w-full h-[200px] rounded-md" />
           <Skeleton className="w-full h-[200px] rounded-md" />
@@ -86,9 +87,9 @@ export default function Forked() {
       );
     }
   return (
-    <div className='grid grid-cols-2 gap-4'>
+    <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4 pt-4 pb-10'>
         {data?.filter(item => item.fork === true).map(card => (
-            <div key={card.id} className='flex flex-col justify-between shadow-lg rounded-sm overflow-hidden'>
+            <div key={card.id} className='flex flex-col justify-between border dark:border-slate-500 dark:shadow-none shadow-lg rounded-sm overflow-hidden'>
             <div className='flex flex-col gap-2 p-4'>
                 <div className='flex items-center justify-between'>
                     <h1 className='truncate mr-2 font-bold text-lg'>{card?.name}</h1>
@@ -98,7 +99,7 @@ export default function Forked() {
                 </div>
                 <p className='truncate'>{card?.description || "description empty"}</p>
             </div>
-            <div className='bg-slate-100 p-4 flex gap-4 items-center'>
+            <div className='bg-slate-100 dark:bg-slate-800 p-4 flex gap-4 items-center'>
                 <p className='flex items-center gap-2'><FaStar />{card?.stargazers_count}</p>
                 <p className='flex items-center gap-2'><PiGitForkBold   />{card?.forks_count}</p>
                 <Link href={card?.html_url} className='ml-auto' target='_blank'><FaExternalLinkSquareAlt /></Link>

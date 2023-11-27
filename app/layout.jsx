@@ -1,13 +1,29 @@
+"use client";
 import Navbar from "@/components/layouts/Navbar";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
+import { Providers } from "@/components/providers";
+import { Toaster } from "@/components/ui/toaster";
+
+export const metadata = {
+  title: "Lương Khoa"
+}
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <ClerkProvider>
+      <html
+        suppressHydrationWarning
+        lang="en"
+      >
         <body className="font-sans selection:bg-sky-600 selection:text-white">
-          <Navbar />
-          {children}
+          <Providers>
+            <Navbar id="some-element" />
+            {children}
+            <Toaster />
+          </Providers>
         </body>
-    </html>
+      </html>
+    </ClerkProvider>
   );
 }
